@@ -1,9 +1,15 @@
+import HomePage from "./pages/HomePage/HomePage";
+import BMIPage from "./pages/BMIPage/BMIPage";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+
 function App() {
     return (
-        <>
-            <h1>Reminder App</h1>
-        </>
-
+        <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomePage />}/>
+              <Route path="/bmi" element={<BMIPage />}/>
+            </Routes>
+        </BrowserRouter>
     );
 }
 
