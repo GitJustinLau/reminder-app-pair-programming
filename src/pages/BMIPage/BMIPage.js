@@ -1,125 +1,150 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import "./BMIPage.scss"
 
 function BMIPage() {
-  const [unit, setUnit] = useState(true); // Metric by default
-  const [weight, setWeight] = useState('');
-  const [height, setHeight] = useState('');
-  const [results, setResults] = useState('');
+    const [unit, setUnit] = useState(true); // Metric by default
+    const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
+    const [results, setResults] = useState('');
 
-  const measureBMI = () => {
-    const weightInput = document.getElementById('bmi-weight');
-    const weightUnit = document.getElementById('bmi-weight-unit');
-    const heightInput = document.getElementById('bmi-height');
-    const heightUnit = document.getElementById('bmi-height-unit');
+    const handleUnitChange = newUnit => {
+        setUnit(newUnit);
+        measureBMI(newUnit);
+    };
 
-    if (unit) {
-      weightUnit.innerHTML = 'KG';
-      weightInput.min = 1;
-      weightInput.max = 635;
-      heightUnit.innerHTML = 'CM';
-      heightInput.min = 54;
-      heightInput.max = 272;
-    } else {
-      weightUnit.innerHTML = 'LBS';
-      weightInput.min = 2;
-      weightInput.max = 1400;
-      heightUnit.innerHTML = 'IN';
-      heightInput.min = 21;
-      heightInput.max = 107;
-    }
-  };
+    const measureBMI = newUnit => {
+        if (newUnit) {
+            setWeightRange(1, 635);
+            setHeightRange(54, 272);
+        } else {
+            setWeightRange(2, 1400);
+            setHeightRange(21, 107);
+        }
+    };
 
-  const calcBMI = event => {
-    event.preventDefault();
+    const setWeightRange = (min, max) => {
+        setWeight({
+            value: weight.value || '',
+            min: min,
+            max: max
+        });
+    };
 
-    let bmi = null;
+    const setHeightRange = (min, max) => {
+        setHeight({
+            value: height.value || '',
+            min: min,
+            max: max
+        });
+    };
 
-    if (unit) {
-      const heightInMeters = height / 100;
-      bmi = weight / (heightInMeters * heightInMeters);
-    } else {
-      bmi = (703 * weight) / (height * height);
-    }
+    const calcBMI = event => {
+        event.preventDefault();
 
-    bmi = Math.round(bmi * 100) / 100;
+        let bmi = null;
 
-    if (bmi < 18.5) {
-      setResults(`${bmi} - Underweight`);
-    } else if (bmi < 25) {
-      setResults(`${bmi} - Normal weight`);
-    } else if (bmi < 30) {
-      setResults(`${bmi} - Pre-obesity`);
-    } else if (bmi < 35) {
-      setResults(`${bmi} - Obesity class I`);
-    } else if (bmi < 40) {
-      setResults(`${bmi} - Obesity class II`);
-    } else {
-      setResults(`${bmi} - Obesity class III`);
-    }
-  };
+        if (unit) {
+            const heightInMeters = height.value / 100;
+            bmi = weight.value / (heightInMeters * heightInMeters);
+        } else {
+            bmi = (703 * weight.value) / (height.value * height.value);
+        } bmi = Math.round(bmi * 100) / 100;
 
-  return (
-    <form id="bmi-form" onSubmit={calcBMI}>
-      <div className="bmi-label">System:</div>
-      <div className="bmi-row">
-        <label>
-          <input
-            type="radio"
-            id="bmi-metric"
-            name="bmi-measure"
-            onChange={() => {
-              setUnit(true);
-              measureBMI();
-            }}
-            checked={unit}
-          />
-          Metric
-        </label>
-        <label>
-          <input
-            type="radio"
-            id="bmi-imperial"
-            name="bmi-measure"
-            onChange={() => {
-              setUnit(false);
-              measureBMI();
-            }}
-            checked={!unit}
-          />
-          Imperial
-        </label>
-      </div>
+        if (bmi < 18.5) {
+            setResults(`${bmi} - Underweight`);
+        } else if (bmi < 25) {
+            setResults(`${bmi} - Normal weight`);
+        } else if (bmi < 30) {
+            setResults(`${bmi} - Pre-obesity`);
+        } else if (bmi < 35) {
+            setResults(`${bmi} - Obesity class I`);
+        } else if (bmi < 40) {
+            setResults(`${bmi} - Obesity class II`);
+        } else {
+            setResults(`${bmi} - Obesity class III`);
+        }
+    };
 
-      <div className="bmi-label">Weight (<span id="bmi-weight-unit">{unit ? 'KG' : 'LBS'}</span>):</div>
-      <div className="bmi-row">
-        <input
-          id="bmi-weight"
-          type="number"
-          min={unit ? 1 : 2}
-          max={unit ? 635 : 1400}
-          value={weight}
-          onChange={e => setWeight(e.target.value)}
-          required
-        />
-      </div>
+    return (
+        <form className="bmi" id="bmi__form"
+            onSubmit={calcBMI}>
+            <div className='bmi__container'>
+                <h3 className="bmi__label">System:</h3>
+                <div className="bmi__row">
+                    <label>
+                        <input type="radio" className='bmi__metric' id="bmi__metric" name="bmi__measure"
+                            onChange={
+                                () => handleUnitChange(true)
+                            }
+                            checked={unit}/>
+                        Metric
+                    </label>
+                    <label>
+                        <input type="radio" className='bmi__imperial' id="bmi__imperial" name="bmi__measure"
+                            onChange={
+                                () => handleUnitChange(false)
+                            }
+                            checked={
+                                !unit
+                            }/>
+                        Imperial
+                    </label>
+                </div>
 
-      <div className="bmi-label">Height (<span id="bmi-height-unit">{unit ? 'CM' : 'IN'}</span>):</div>
-      <div className="bmi-row">
-        <input
-          id="bmi-height"
-          type="number"
-          min={unit ? 54 : 21}
-          max={unit ? 272 : 107}
-          value={height}
-          onChange={e => setHeight(e.target.value)}
-          required
-        />
-      </div>
+                <div className="bmi__label">Weight (<span id="bmi__weight-unit">
+                        {
+                        unit ? 'KG' : 'LBS'
+                    }</span>):</div>
+                <div className="bmi__row">
+                    <input id="bmi__weight" type="number"
+                        min={
+                            weight.min
+                        }
+                        max={
+                            weight.max
+                        }
+                        value={
+                            weight.value
+                        }
+                        onChange={
+                            e => setWeight({
+                                ...weight,
+                                value: e.target.value
+                            })
+                        }
+                        required/>
+                </div>
 
-      <input type="submit" value="Calculate BMI" />
-      <span id="bmi-results">{results}</span>
-    </form>
-  );
+                <div className="bmi__label">Height (<span id="bmi__height-unit">
+                        {
+                        unit ? 'CM' : 'IN'
+                    }</span>):</div>
+                <div className="bmi__row">
+                    <input id="bmi__height" type="number"
+                        min={
+                            height.min
+                        }
+                        max={
+                            height.max
+                        }
+                        value={
+                            height.value
+                        }
+                        onChange={
+                            e => setHeight({
+                                ...height,
+                                value: e.target.value
+                            })
+                        }
+                        required/>
+                </div>
+
+                <button type="submit">Calculate BMI</button>
+                <p id="bmi__results">
+                    {results}</p>
+            </div>
+        </form>
+    );
 }
 
 export default BMIPage;
