@@ -1,7 +1,13 @@
 @use "../../styles/partials/variables.scss" as *;
 
 .header {
+    padding: 1rem;
     background-color: $dark-green;
     color: $light-yellow;
     text-align: center;
+}
+
+a {
+    color: $light-yellow;
+    text-decoration: none;
 }

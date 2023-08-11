@@ -16,6 +16,8 @@
     color: $dark-green;
     padding: 1rem;
 
+    
+
     &__form {
         text-align: center;
         display: flex;
@@ -23,13 +25,18 @@
     }
 
     &__input {
-        padding: 0.3rem;
+        padding: 0.5rem;
         font-family: 'AvenirNext LT Pro';
         border-radius: 4px;
-        border: 1px solid $dark-green;
+        border: 1px solid $light-blue;
         color: $dark-green;
         background-color: $light-yellow;
         height: 2rem;
+        width: 42rem;
+        &::placeholder {
+            text-align: center;
+        }
+
     }
     &__list {
         margin: 1rem;
@@ -53,12 +60,28 @@
         background-color: $light-yellow;
         border-radius: 0.25rem;
         display: flex;
+        border: 1px solid $light-blue;
         flex-direction: column;
         align-items: center;
-        padding: 0.5rem;
+        padding: 1rem;
         @include text-styles ($font-size: 1rem, $line-height: 1rem, $font-weight: 600);
+        width: 42rem;
+    }
 
+    &__time-input {
+        padding: 0.3rem;
+        font-family: 'AvenirNext LT Pro';
+        border-radius: 4px;
+        border: 1px solid $dark-green;
+        color: $dark-green;
+        background-color: $light-yellow;
+        height: 2rem;
+        width: 30rem;
 
+    }
+
+    &__click {
+        padding-bottom: 0.5rem;
     }
 
     &__button {
@@ -71,6 +94,7 @@
         border: none;
         width: 2.5rem;
         height: 2.5rem;
+        margin-top: 4rem;
     }
 
     &__item {
@@ -83,6 +107,8 @@
         align-items: center;
         justify-content: space-between;
         background-color: rgba(0, 0, 0, 0.2); 
+        width: 45rem;
+
         
         @include text-styles ($font-size: 1rem, $line-height: 1rem, $font-weight: 400);
 
@@ -91,4 +117,10 @@
     &__memo-date {
         text-align: center;
     }
+
+    &__time {
+        padding-top: 0.5rem;
+        @include text-styles ($font-size: 0.8rem, $line-height: 0.5rem, $font-weight: 400);
+    }
 }
+

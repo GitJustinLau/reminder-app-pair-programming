@@ -13,15 +13,22 @@ const Reminder = () => {
     const [reminder, setReminder] = useState([]);
     const [value, onChange] = useState(new Date());
     const [calendVis, setCalenVis] = useState(false);
+    const [uniqueDate, setUniqueDate] = useState([])
     const formRef = useRef();
 
     const {id} = useParams();
-    const navigate = useNavigate();
 
 
     useEffect(() => {
         axios.get("http://localhost:5050/reminders").then((res) => {
-            setReminder(res.data)
+            setReminder(res.data);
+            const newData = res.data.map(item => {
+                return item.dateReminder;
+            })
+            const uniqueDateReminders = [...new Set(newData)]
+            uniqueDateReminders.sort();
+
+            setUniqueDate(uniqueDateReminders);
         }).catch(console.error)
 
     }, [])
@@ -33,7 +40,6 @@ const Reminder = () => {
             console.error('Error deleting reminder:', error);
         });
     };
-
 
     const handleCVis = () => {
         setCalenVis(!calendVis);
@@ -56,7 +62,8 @@ const Reminder = () => {
         e.preventDefault();
         const newObj = {
             memo: formRef.current.memo.value,
-            dateReminder: value.toLocaleDateString()
+            dateReminder: value.toLocaleDateString(),
+            time:formRef.current.time.value
         }
 
         axios.post("http://localhost:5050/reminders", newObj).then((res) => {
@@ -85,11 +92,14 @@ const Reminder = () => {
                         ref={formRef}>
                         <div className="reminder__form-container">
                             <label>
-                                <input className="reminder__input" id="memo" type="text" placeholder="Enter your memo"/>
+                                <textarea className="reminder__input" id="memo" type="text" placeholder="Enter your memo"></textarea>
                             </label>
+
                             <div className="reminder__date-input">
+
+
                                 {/* if value causes errors, replace with Calendar in div below*/}
-                                <div onClick={handleCVis}>
+                                <div className="reminder__click" onClick={handleCVis}>
                                     {
                                     value.toLocaleDateString()
                                 }</div>
@@ -99,7 +109,11 @@ const Reminder = () => {
                                     value={value}
                                     id="dateReminder"/>
                                 }
+                                <input className="reminder__time-input" type="text" id="time" value="12:00 PM"/>
+
                             </div>
+
+
                         </div>
 
                         <button className="reminder__button">+</button>
@@ -107,39 +121,57 @@ const Reminder = () => {
 
                 </div>
                 <div>
+
                     <ul className="reminder__list">
                         {
-                        reminder.map(list => {
+
+                        uniqueDate.map(item => {
+
                             return (
-                                <>
-                                    <li className="reminder__item">
-                                        <img className="reminder__icon"
-                                            src={checkboxIcon}
-                                            alt="check box"/>
-                                        <div className="reminder__memo-date">
-                                            <p className="reminder__memo">
-                                                {
-                                                list.memo
-                                            } </p>
+                                <article> {
+                                    console.log(item)
+                                }
+                                    <h2>{item}</h2>
+                                    {
+                                    reminder.filter((reminder) => reminder.dateReminder === item).map(list => {
+                                        return (
+                                            <>
+                                                <li className="reminder__item">
+                                                    {/* <img className="reminder__icon"
+                                                    src={checkboxIcon}
+                                                    alt="check box"/> */}
+                                                    <input type="checkbox" className="reminder__checkbox"/>
+                                                    <div className="reminder__memo-date">
+                                                        <p className="reminder__memo">
+                                                            {
+                                                            list.memo
+                                                        } </p>
+                                                        <p className="reminder__time">
+                                                            {
+                                                            list.time
+                                                        } </p>
+                                                        {/* 
+                                                    <p className="reminder__date">
+                                                        {
+                                                        list.dateReminder
+                                                    }</p> */} </div>
 
-                                            <p className="reminder__date">
-                                                {
-                                                list.dateReminder
-                                            }</p>
-                                        </div>
+                                                    <div onClick={
+                                                        () => handleDelete(list.id)
+                                                    }>
+                                                        <img src={deleteIcon}
+                                                            alt="delete"/>
 
-                                        <div onClick={
-                                            () => handleDelete(list.id)
-                                        }>
-                                            <img src={deleteIcon}
-                                                alt="delete"/>
-
-                                        </div>
+                                                    </div>
 
 
-                                    </li>
-                                </>
-                            );
+                                                </li>
+                                            </>
+
+                                        );
+                                    })
+                                } </article>
+                            )
                         })
                     } </ul>
 
