@@ -1,0 +1,23 @@
+@use './variables.scss' as *;
+@use './fonts.scss' as *;
+
+// breakpoint
+@mixin desktop {
+    @media screen and (min-width: $desktop-breakpoint) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media screen and (min-width: $tablet-breakpoint) {
+        @content;
+    }
+}
+
+// textStyle for different style from the given
+@mixin textStyleKit($fontSize, $lineHeight, $font) {
+    font-family: $font;
+    font-size: $fontSize;
+    line-height: $lineHeight;
+}
+
