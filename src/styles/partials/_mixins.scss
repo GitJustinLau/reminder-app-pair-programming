@@ -1,5 +1,4 @@
-@use './variables.scss' as *;
-@use './fonts.scss' as *;
+@use './variables' as *;
 
 // breakpoint
 @mixin desktop {
@@ -15,9 +14,9 @@
 }
 
 // textStyle for different style from the given
-@mixin textStyleKit($fontSize, $lineHeight, $font) {
-    font-family: $font;
-    font-size: $fontSize;
-    line-height: $lineHeight;
+@mixin text-styles ($font-size, $line-height, $font-weight: 400) {
+    font-size: $font-size;
+    line-height: $line-height;
+    font-weight: $font-weight;
 }
 

@@ -2,7 +2,7 @@ import "./Reminder.scss"
 import checkboxIcon from "../../assets/images/icons/checkbox-icon.png"
 
 
-const Reminder = ({reminderData}) => {
+const Reminder = ({ reminderData }) => {
 
     function getTodayDate() {
         const date = new Date();
@@ -23,41 +23,42 @@ const Reminder = ({reminderData}) => {
             <div className="date__container">
                 <h3 className="today">
                     {
-                    getTodayDate()
-                } </h3>
+                        getTodayDate()
+                    } </h3>
             </div>
             <div className="reminder">
                 <div className="reminder__new">
                     <form className="reminder__form">
                         <label>
-                            <input className="reminder__input" type="text"/>
+                            <input className="reminder__input" type="text" />
                         </label>
 
-                        <button type="submit">Add Reminder</button>
+                        <button className="reminder__button" type="submit">+</button>
                     </form>
 
                 </div>
                 <div>
                     <ul className="reminder__list">
                         {
-                        reminderData.map(list => {
-                            return (
-                                <>
-                                    <li className="reminder__item">
-                                        <span><img className="reminder__icon"
+                            reminderData.map(list => {
+                                return (
+                                    <>
+                                        <li className="reminder__item">
+                                            <span><img className="reminder__icon"
                                                 src={checkboxIcon}
-                                                alt="check box"/></span> {
-                                        list.memo
-                                    }
-                                        <span className="reminder__date"> {
-                                            list.dateReminder
-                                        }</span>
-                                    </li>
-                                </>
+                                                alt="check box" /></span> {
+                                                list.memo
+                                            }
+                                            <span className="reminder__date"> {
+                                                list.dateReminder
+                                            }</span>
+                                        </li>
+                                    </>
 
-                            );
-                        })
-                    } </ul>
+                                );
+                            })
+                        }
+                    </ul>
 
                 </div>
             </div>
