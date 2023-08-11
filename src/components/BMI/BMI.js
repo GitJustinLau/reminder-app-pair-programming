@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import "./BMIPage.scss"
+import {useState} from 'react';
+import "./BMI.scss"
 
-function BMIPage() {
+function BMI() {
     const [unit, setUnit] = useState(true); // Metric by default
     const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
@@ -147,4 +147,4 @@ function BMIPage() {
     );
 }
 
-export default BMIPage;
+export default BMI;

@@ -1,0 +1,7 @@
+@use "../../styles/partials/variables.scss" as *;
+
+.header {
+    background-color: $dark-green;
+    color: $light-yellow;
+    text-align: center;
+}

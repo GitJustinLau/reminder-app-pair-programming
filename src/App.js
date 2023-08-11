@@ -1,7 +1,8 @@
 import HomePage from "./pages/HomePage/HomePage";
-import BMIPage from "./pages/BMIPage/BMIPage";
+import ActivityPage from "./pages/ActivityPage/ActivityPage";
 import Header from "./components/Header/Header";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import "./App.scss"
 
 function App() {
     return (
@@ -10,8 +11,8 @@ function App() {
             <Routes>
                 <Route path="/"
                     element={<HomePage/>}/>
-                <Route path="/bmi"
-                    element={<BMIPage/>}/>
+                <Route path="/activity"
+                    element={<ActivityPage/>}/>
             </Routes>
         </BrowserRouter>
     );
