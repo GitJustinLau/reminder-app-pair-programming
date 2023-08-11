@@ -4,4 +4,9 @@
     background-color: $dark-green;
     color: $light-yellow;
     text-align: center;
+
+    &__link {
+        text-decoration: none;
+        color: $light-yellow;
+    }
 }
