@@ -1,4 +1,6 @@
-*, *::after, *::before {
+@use './styles/partials/fonts';
+* {
+    font-family: 'AvenirNext LT Pro';
     margin: 0;
     padding: 0;
     box-sizing: border-box;

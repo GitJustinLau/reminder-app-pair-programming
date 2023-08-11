@@ -6,7 +6,7 @@ import {useRef, useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import axios from "axios";
-import { useParams, useNavigate   } from "react-router-dom"
+import {useParams, useNavigate} from "react-router-dom"
 
 const Reminder = () => {
 
@@ -27,14 +27,12 @@ const Reminder = () => {
     }, [])
 
     const handleDelete = (deletedId) => {
-        axios.delete(`http://localhost:5050/reminders/${deletedId}`)
-          .then(() => {
+        axios.delete(`http://localhost:5050/reminders/${deletedId}`).then(() => {
             setReminder(reminder.filter(reminder => reminder.id !== deletedId));
-          })
-          .catch(error => {
+        }).catch(error => {
             console.error('Error deleting reminder:', error);
-          });
-      };
+        });
+    };
 
 
     const handleCVis = () => {
@@ -85,23 +83,26 @@ const Reminder = () => {
                     <form className="reminder__form"
                         onSubmit={addNewReminder}
                         ref={formRef}>
-                        <label>
-                            <input className="reminder__input" id="memo" type="text" placeholder="Enter your memo"/>
-                        </label>
-                        <div> {/* if value causes errors, replace with Calendar in div below*/}
-                            <div onClick={handleCVis}>
+                        <div className="reminder__form-container">
+                            <label>
+                                <input className="reminder__input" id="memo" type="text" placeholder="Enter your memo"/>
+                            </label>
+                            <div className="reminder__date-input">
+                                {/* if value causes errors, replace with Calendar in div below*/}
+                                <div onClick={handleCVis}>
+                                    {
+                                    value.toLocaleDateString()
+                                }</div>
+
                                 {
-                                value.toLocaleDateString()
-                            }</div>
+                                calendVis && <Calendar onChange={onChange}
+                                    value={value}
+                                    id="dateReminder"/>
+                                }
+                            </div>
+                        </div>
 
-                            {
-                            calendVis && <Calendar onChange={onChange}
-                                value={value}
-                                id="dateReminder"/>
-                            }
-                         </div>
-
-                        <button>Add Reminder</button>
+                        <button className="reminder__button">+</button>
                     </form>
 
                 </div>
@@ -111,21 +112,25 @@ const Reminder = () => {
                         reminder.map(list => {
                             return (
                                 <>
-                                    <li 
-                                        className="reminder__item">
+                                    <li className="reminder__item">
                                         <img className="reminder__icon"
                                             src={checkboxIcon}
                                             alt="check box"/>
-                                        <p className="reminder__memo">
-                                            {
-                                            list.memo
-                                        } </p>
+                                        <div className="reminder__memo-date">
+                                            <p className="reminder__memo">
+                                                {
+                                                list.memo
+                                            } </p>
 
-                                        <p className="reminder__date">
-                                            {
-                                            list.dateReminder
-                                        }</p>
-                                        <div onClick={() => handleDelete(list.id)}>
+                                            <p className="reminder__date">
+                                                {
+                                                list.dateReminder
+                                            }</p>
+                                        </div>
+
+                                        <div onClick={
+                                            () => handleDelete(list.id)
+                                        }>
                                             <img src={deleteIcon}
                                                 alt="delete"/>
 
