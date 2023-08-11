@@ -20,14 +20,8 @@ const Reminder = ({ reminderData }) => {
 
     return (
         <>
-            <div className="date__container">
-                <h3 className="today">
-                    {
-                        getTodayDate()
-                    } </h3>
-            </div>
-            <div className="reminder">
-                <div className="reminder__new">
+
+            <div className="reminder__new">
                     <form className="reminder__form">
                         <label>
                             <input className="reminder__input" type="text" />
@@ -37,6 +31,8 @@ const Reminder = ({ reminderData }) => {
                     </form>
 
                 </div>
+            <div className="reminder">
+
                 <div>
                     <ul className="reminder__list">
                         {
