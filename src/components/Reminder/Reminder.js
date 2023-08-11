@@ -6,7 +6,7 @@ import {useRef, useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import axios from "axios";
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate   } from "react-router-dom"
 
 const Reminder = () => {
 
@@ -16,6 +16,8 @@ const Reminder = () => {
     const formRef = useRef();
 
     const {id} = useParams();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         axios.get("http://localhost:5050/reminders").then((res) => {
@@ -25,7 +27,6 @@ const Reminder = () => {
     }, [])
 
     const handleDelete = (deletedId) => {
-        console.log(deletedId)
         axios.delete(`http://localhost:5050/reminders/${deletedId}`)
           .then(() => {
             setReminder(reminder.filter(reminder => reminder.id !== deletedId));
@@ -60,13 +61,15 @@ const Reminder = () => {
             dateReminder: value.toLocaleDateString()
         }
 
-        axios.post("http://localhost:5050/reminders", newObj).then(() => {
+        axios.post("http://localhost:5050/reminders", newObj).then((res) => {
             console.log("sucess");
             setReminder([
                 ...reminder,
-                newObj
+                res.data
             ])
+            formRef.current.reset()
         }).catch(console.error)
+
     }
 
     return (
@@ -108,9 +111,7 @@ const Reminder = () => {
                         reminder.map(list => {
                             return (
                                 <>
-                                    <li key={
-                                            list.id
-                                        }
+                                    <li 
                                         className="reminder__item">
                                         <img className="reminder__icon"
                                             src={checkboxIcon}
@@ -127,6 +128,7 @@ const Reminder = () => {
                                         <div onClick={() => handleDelete(list.id)}>
                                             <img src={deleteIcon}
                                                 alt="delete"/>
+
                                         </div>
 
 
