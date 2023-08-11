@@ -18,20 +18,21 @@
     color: $dark-green;
     padding: 1rem;
 
-    &__form {
-
-    }
-
-
-
     &__list {
         margin: 1rem;
         list-style-type: none;
 
     }
 
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: space-between;
+    }
+
     &__icon {
         width: 0.7rem;
         height: 0.7rem;
-    }
+    }    
 }

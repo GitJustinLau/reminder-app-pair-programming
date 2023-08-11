@@ -11,6 +11,8 @@ function App() {
             <Routes>
                 <Route path="/"
                     element={<HomePage/>}/>
+                <Route path="/:id"
+                    element={<HomePage/>}/>
                 <Route path="/activity"
                     element={<ActivityPage/>}/>
             </Routes>
