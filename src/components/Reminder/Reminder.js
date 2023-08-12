@@ -25,8 +25,7 @@ const Reminder = () => {
             const newData = res.data.map(item => {
                 return item.dateReminder;
             })
-            const uniqueDateReminders = [...new Set(newData)]
-            uniqueDateReminders.sort();
+            const uniqueDateReminders = [...new Set(newData)].sort()
 
             setUniqueDate(uniqueDateReminders);
         }).catch(console.error)
